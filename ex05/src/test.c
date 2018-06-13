@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -12,6 +11,8 @@ int   test_all()
   my_puts("");
   my_puts("Measuring programming progress by lines of code is like measuring aircraft building progress by weight.");
   my_puts("*********************************************************************************");
+
+  return (0);
 }
 
 int           test_verif()
@@ -21,11 +22,14 @@ int           test_verif()
   puts("");
   puts("Measuring programming progress by lines of code is like measuring aircraft building progress by weight.");
   puts("*********************************************************************************");
+
+  return (0);
 }
 
-int   main(int argc, char *argv[])
+int   main()
 {
   test_all();
   test_verif();
+
   return(0);
 }

@@ -14,6 +14,8 @@ int   test_small()
 
   assert(my_strcpy(buf, "123456789") == buf);
   assert(strcmp(buf, "123456789") == 0);
+
+  return (0);
 }
 
 int           test_long()
@@ -24,6 +26,8 @@ int           test_long()
   ptr = "ooheijiewuudo8wuif5eeKoexie3aih";
   assert(my_strcpy(buf, ptr) == buf);
   assert(strcmp(buf, ptr) == 0);
+
+  return (0);
 }
 
 int           test_verif()
@@ -34,12 +38,15 @@ int           test_verif()
   ptr = "lohque7iebo7in3Einga0DumijaeR7";
   assert(strcpy(buf, ptr) == buf);
   assert(strcmp(buf, ptr) == 0);
+
+  return (0);
 }
 
-int   main(int argc, char *argv[])
+int   main()
 {
   test_small();
   test_long();
   test_verif();
+
   return(0);
 }

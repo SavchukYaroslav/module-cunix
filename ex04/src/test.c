@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -13,6 +12,8 @@ int   test_small()
   assert(my_atoi("42") == 42);
   assert(my_atoi("-42") == -42);
   assert(my_atoi("1k") == 1);
+
+  return (0);
 }
 
 int           test_long()
@@ -24,6 +25,8 @@ int           test_long()
   assert(my_atoi("4294967298") == 2);
   assert(my_atoi("ABC") == 0);
   assert(my_atoi("0") == atoi("0"));
+
+  return (0);
 }
 
 int           test_verif()
@@ -41,6 +44,8 @@ int           test_verif()
   assert(atoi("4294967298") == 2);
   assert(atoi("ABC") == 0);
   assert(atoi("1234QWERTY1234") == 1234);
+
+  return (0);
 }
 
 int     test_itoa()
@@ -53,12 +58,16 @@ int     test_itoa()
   assert(strcmp(my_itoa(-34), "-34") == 0);
   assert(strcmp(my_itoa(-12345678), "-12345678") == 0);
   assert(strcmp(my_itoa(-1234567890), "-1234567890") == 0);
+
+  return (0);
 }
-int   main(int argc, char *argv[])
+
+int   main()
 {
   test_small();
   test_long();
   test_verif();
   test_itoa();
+
   return(0);
 }

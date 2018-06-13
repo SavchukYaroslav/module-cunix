@@ -21,7 +21,7 @@ int       test_visiting()
   char    *val;
 
   root = NULL;
-  for (int i = 0; i <= 10000; i++) {
+  for (int i = 0; i <= 1000; i++) {
     asprintf(&key, "%s%05d", "hello", i);
     asprintf(&val, "%s%05d", "world", i);
     root = insert(root, key, val);
@@ -46,7 +46,7 @@ int       test_allocation()
   return (0);
 }
 
-void      remove_static(node_t *node)
+void      remove_static(__attribute__((unused)) node_t *node)
 {
   NULL;
 }

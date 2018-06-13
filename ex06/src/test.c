@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -14,6 +13,8 @@ int   test_all()
   my_printf("%d %s\n", 42, "is the answer");
   my_printf("%010d %s\n", 42, "was padded on 10");
   my_printf("%10d %s\n", 42, "was also padded using spaces");
+
+  return (0);
 }
 
 int   test_verif()
@@ -26,6 +27,8 @@ int   test_verif()
   printf("%d %s\n", 42, "is the answer");
   printf("%010d %s\n", 42, "was padded on 10");
   printf("%10d %s\n", 42, "was also padded using spaces");
+
+  return (0);
 }
 
 int   test_bonus()
@@ -33,12 +36,15 @@ int   test_bonus()
   printf("Padding of %s: [%05d]\n", "five", -42);
   printf("Padding of %s: [%5d]\n", "five", -42);
   printf("Padding of %s: [%-5d]\n", "five", -42);
+
+  return (0);
 }
 
-int   main(int argc, char *argv[])
+int   main()
 {
   test_all();
   test_verif();
   test_bonus();
+
   return(0);
 }

@@ -12,6 +12,8 @@ int   test_small()
   assert(my_strlen("A") == 1);
   assert(my_strlen("AB") == 2);
   assert(my_strlen("ABC") == 3);
+
+  return (0);
 }
 
 int   test_long()
@@ -23,6 +25,8 @@ int   test_long()
   assert(my_strlen("Ro1miesiebo2AiShohs9TieghakooP3v") == 32);
   assert(my_strlen("") == 0);
   assert(my_strlen("hae7xuTahfae2vai7sae6pu0chaGhoop2\n") == 34);
+
+  return (0);
 }
 
 int   test_very()
@@ -31,12 +35,15 @@ int   test_very()
   assert(my_strlen("OHNEMA2FOHWEICHO9AISHOH9REIH9THAE7EP7OOQUOHCE0IECHIX8AHKAIZU2EEBAIS6EEX5PHI7NOOSOHSH3AIWAEQUO1YAETHOO9VOHGHIPAINAED5CHOH5AE") == 123);
   assert(my_strlen("ahgh9Uw2aipeishohv8eesh6quai5xiobeehae5zei4peth9loZ3aiqu0oonaNaiJeiwoo4thaeKoogu5ees5razie9di8uChohneighaet9Ohcohsheu6opeix") == 123);
   assert(my_strlen("leenahrohing2Ye8hohghiu7ShoohaeT5Lie3aehoo6feeceaJ5aiKooph3eeHo5ieroghoh7Shie5Quaiho7lathievoePheivi4uegi1feibei2OowuoCheuj") == 123);
+
+  return (0);
 }
 
-int   main(int argc, char *argv[])
+int   main()
 {
   test_small();
   test_long();
   test_very();
-  return(0);
+
+  return (0);
 }
