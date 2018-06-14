@@ -14,10 +14,10 @@ node_t  *allocnode(){
 node_t  *insert_rec(node_t *root, char *key, void *data){
     if(root == NULL){
         node_t* nd = allocnode();
-        nd->key = malloc(strlen(key)+1);
-        strcpy(nd->key, key);
-        nd->data = malloc(strlen(data)+1);
-        strcpy(nd->data, data);
+        nd->key = key;//malloc(strlen(key)+1);
+        //strcpy(nd->key, key);
+        nd->data = data;//malloc(strlen(data)+1);
+        //strcpy(nd->data, data);
         nd->left = NULL;
         nd->right = NULL;
         return nd;
