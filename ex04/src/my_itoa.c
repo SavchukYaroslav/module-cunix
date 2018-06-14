@@ -15,12 +15,10 @@ char* my_itoa(int nmbr){
   }
   char* str = calloc(12, sizeof(char));
   str[11] = '\0';
-  int sign = 1;
 
-  if(nmbr < 0){
-    sign = -1;
-    nmbr = nmbr*(-1);
-  }
+  int sign = (nmbr < 0)?-1:1;
+  nmbr = nmbr*sign; //absolute value
+  
   int i = 0;
   for(long a = nmbr; a!=0 ;i++){
     int k = ten_pow(i+1);
