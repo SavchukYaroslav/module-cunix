@@ -22,19 +22,19 @@ node_t  *list_create(void *data){
 }
 
 void destroy_rec(node_t **head, void (*fp)(void *data)){
- (*fp)((**head).data);
- if((**head).next == NULL)
-  return;
- (*head)++;
- destroy_rec(head, fp);
- free((**head).next);
+  (*fp)((**head).data);
+  if((**head).next == NULL)
+    return;
+  (*head)++;
+  destroy_rec(head, fp);
+  free((**head).next);
 }
 
 void  list_destroy(node_t **head, void (*fp)(void *data)){
   if(!(*head))
-  return;
- destroy_rec(head, fp);
- free((*head));
+    return;
+  destroy_rec(head, fp);
+  free((*head));
 }
 
 void    list_push(node_t *head, void *data){
@@ -55,28 +55,26 @@ void  list_unshift(node_t **head, void *data){
   *head = first;
 }
 
-void nop(void* data){
-}
+void nop(void* data){}
 
 void *list_pop(node_t **head){
- node_t* e = *head;
+  node_t* e = *head;
   while(e->next->next != NULL){
     e = e->next;
   }
   node_t* e_to_del = e+1;
   list_destroy(&(e_to_del), &nop);
   e->next = NULL;
-
 }
 
-void    *list_shift(node_t **head){
+void *list_shift(node_t **head){
   node_t* new_head = (*head)->next;
   free((*head)->data);
   free(*head);
   *head = new_head;
 }
 
-void    *list_remove(node_t **head, int pos){
+void *list_remove(node_t **head, int pos){
   node_t* p = (*head)+pos;
   if(p == *head)
    list_shift(head);
