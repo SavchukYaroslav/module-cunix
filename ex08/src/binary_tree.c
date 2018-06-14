@@ -2,6 +2,7 @@
  #include<stdlib.h>
  #include"binary_tree.h"
  #include <string.h>
+
 node_t  *allocnode(){
     node_t* node =(node_t*) malloc(sizeof(node_t));
     node->key = NULL;
@@ -9,6 +10,7 @@ node_t  *allocnode(){
     node->left = NULL;
     node->right = NULL;
 }
+
 node_t  *insert_rec(node_t *root, char *key, void *data){
     if(root == NULL){
         node_t* nd = allocnode();
@@ -20,11 +22,10 @@ node_t  *insert_rec(node_t *root, char *key, void *data){
         nd->right = NULL;
         return nd;
     }
-    
     if(strcmp(key, root->key) <= 0)
-        root->left = insert(root->left, key, data);
+        root->left = insert_rec(root->left, key, data);
     else
-        root->right = insert(root->right, key, data);
+        root->right = insert_rec(root->right, key, data);
     return root;
 }
 
@@ -34,6 +35,8 @@ node_t *insert(node_t *root, char *key, void *data){
 }
 
 void print_node(node_t *node){
+   if(node == NULL)
+       return;
    printf("Key: %s\n",node->key);
    printf("Data: %s\n",node->data); 
    if(node->left)
@@ -44,8 +47,8 @@ void print_node(node_t *node){
       printf("Right: %s\n", node->right->key);
    else
       printf("Right: NULL\n");
- 
 }
+
 void    visit_tree(node_t *node, void (*fp)(node_t *root)){
     if(node == NULL)
         return;
@@ -53,25 +56,22 @@ void    visit_tree(node_t *node, void (*fp)(node_t *root)){
     visit_tree(node->left, fp);
     visit_tree(node->right, fp);
 }
-void    destroy_tree(node_t *node, void (*fdestroy)(node_t *root)){
 
+node_t* destroy_tree_rec (node_t *node, void (*fdestroy)(node_t * root)){
+   if(node == NULL)
+       return NULL;
+   (*fdestroy)(node);
+   node_t* next = destroy_tree_rec(node->left, fdestroy);
+    if(next != NULL)
+        free(next);
+    next = destroy_tree_rec(node->right, fdestroy);
+    if(next != NULL)
+        free(next);
+    return node;
 }
 
-int my_test(){
-    printf("First");
-    node_t* nd = insert(NULL,"kek","lol");
-    printf("RES:%d", nd != NULL);
-    print_node(nd);
-    insert(nd, "kekos", "lolos");
-    print_node(nd->right);
-    printf("VISIT TREE:\n");
-    visit_tree(nd, &print_node);
-    insert(nd, "kekos", "123");
-    printf("VISIT TREE2:\n");
-    visit_tree(nd, &print_node);
-
- }
-
-int main(){
-    my_test();
+void destroy_tree(node_t *node, void (*fdestroy)(node_t *root)){
+    destroy_tree_rec(node, fdestroy);
+    if(node) free(node);
 }
+

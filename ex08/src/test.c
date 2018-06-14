@@ -91,17 +91,13 @@ int       test_smalltree()
   return (0);
 }
 
-int my_test(){
-   print_node(insert(NULL,"kek","lol")); 
-}
 int   main(void)
 {
-  //test_allocation();
-  my_test();
-  //test_prototyping();
-  //assert(test_prototyping() == 0);
-  //assert(test_smalltree() == 0);
-  //assert(test_visiting() == 0);
+  test_allocation();
+  test_prototyping();
+  assert(test_prototyping() == 0);
+  assert(test_smalltree() == 0);
+  assert(test_visiting() == 0);
 
   return (0);
 }
