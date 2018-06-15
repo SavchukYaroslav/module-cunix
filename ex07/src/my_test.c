@@ -141,13 +141,16 @@ int test_shift()
   char     *valid;
   char     *str;
 
+  printf("---SHIFT TEST---");
   asprintf(&str, "Test shift: fail");
   head = list_create(str);
   asprintf(&str, "Test shift: ok");
   list_push(head, str);
 
+  list_print(head);
   list_shift(&head);
   list_shift(&head);
+  list_print(head);
 
   list_destroy(&head, &test_destroy_push);
 
@@ -160,6 +163,7 @@ int test_remove()
   char   *valid;
   char   *str;
 
+  printf("\n---REMOVE TEST---\n");
   asprintf(&str, "head");
   head = list_create(str);
 
@@ -174,7 +178,9 @@ int test_remove()
   asprintf(&str, "5");
   list_push(head, str);
 
+  list_print(head);
   list_remove(&head, 3);
+  list_print(head);
 
   list_destroy(&head, &test_destroy_push);
 
@@ -238,7 +244,7 @@ int main()
    test_pop();
    test_shift();
    test_remove();
-   test_visitor();
-   test_global();
+   //test_visitor();
+   //test_global();
   return (0);
 }

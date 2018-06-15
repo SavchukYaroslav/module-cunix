@@ -5,6 +5,8 @@
 
 void list_print(node_t *head){
   printf("\n----LIST:----\n");
+  if(!head)
+      printf("NULL");
   node_t* e = head;
   int i = 0;
   while(e!=NULL){
@@ -16,36 +18,30 @@ void list_print(node_t *head){
 
 node_t  *list_create(void *data){
   node_t* node = malloc(sizeof(node_t));
-  node->data = malloc(strlen((char*) data)+1);
-  strcpy(node->data, data);
+  node->data = data;
   node->next = NULL;
+  return node;
 }
 
-void destroy_rec(node_t **head, void (*fp)(void *data)){
-  (*fp)((**head).data);
-  if((**head).next == NULL)
+void destroy_rec(node_t *head, void (*fp)(void *data)){
+    if(head == NULL)
+        return;
+    destroy_rec(head->next, fp);
+    (*fp)(head->data);
+    free(head);
+    head = NULL;
     return;
-  (*head)++;
-  destroy_rec(head, fp);
-  free((**head).next);
 }
 
 void  list_destroy(node_t **head, void (*fp)(void *data)){
-  if(!(*head))
-    return;
-  destroy_rec(head, fp);
-  free((*head));
+  destroy_rec(*head, fp);
+  *head = NULL;
 }
 
 void    list_push(node_t *head, void *data){
   node_t* e = head;
   while((e->next) != NULL){e = e->next;};
-  node_t* next =(node_t*) malloc(sizeof(node_t));
-  char* next_data =(char*) malloc(strlen(data)+1);
-  strcpy(next_data, data);
-  next->data = next_data;
-  next->next = NULL;
-  e->next = next;
+  e->next=list_create(data);
 }
 
 void  list_unshift(node_t **head, void *data){
@@ -56,15 +52,22 @@ void  list_unshift(node_t **head, void *data){
 }
 
 void nop(void* data){}
-
+void free_data(void* data){
+    free(data);
+}
+node_t* list_pop_rec(node_t* node){
+    if(!node->next){
+        list_destroy(&node, &free_data);
+        return NULL;
+    }
+    node->next = list_pop_rec(node->next);
+    return node;
+    
+}
 void *list_pop(node_t **head){
-  node_t* e = *head;
-  while(e->next->next != NULL){
-    e = e->next;
-  }
-  node_t* e_to_del = e+1;
-  list_destroy(&(e_to_del), &nop);
-  e->next = NULL;
+    if(!*head)
+        return;
+    return list_pop_rec(*head);
 }
 
 void *list_shift(node_t **head){
@@ -75,14 +78,17 @@ void *list_shift(node_t **head){
 }
 
 void *list_remove(node_t **head, int pos){
-  node_t* p = (*head)+pos;
-  if(p == *head)
-   list_shift(head);
-  if(p->next == NULL){
+  if(pos == 0)
+      list_shift(*head);
+  node_t* p = *head;
+  for(int i = 0; i < pos-1; i++)
+      p = p->next;
+  else if(p->next == NULL){
     list_pop(head);
   }
   else{
-    (*head - 1)->data = (*head - 1)->data;
+    free(p->data);
+    (p-1)->next = p->next ;
     free((*head)->data);
     free(*head); 
   }
