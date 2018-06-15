@@ -4,6 +4,7 @@
 #include <string.h>
 #include"binary_tree.h"
 #include"hash.h"
+
 unsigned int hash_func(char *key){
     if(key == NULL)
         return 0;
@@ -33,6 +34,23 @@ void hash_destroy(hashtable_t *ht, void (*fp)(void *data)){
 }
 
 void hash_set(hashtable_t *ht, char *key, void *ptr, void (*fp)(void *data)){
+    if(!ht) return;
+    int bucket = hash_func(key)%(ht->size);
+    ht->table[bucket] = insert(ht->table[bucket], key, ptr);
 }
-void *hash_get(hashtable_t *ht, char *key){
+
+char* find(node_t* node, char* key){
+    if(!node)
+        return NULL;
+    if(!strcmp(node->key, key))
+        return node->data;
+    char* data = find(node->left, key);
+    return data?data:find(node->right, key);
+}
+
+void* hash_get(hashtable_t *ht, char *key){
+    int bucket = hash_func(key)%(ht->size);
+    node_t* tree = ht->table[bucket];
+    void* data = find(tree, key);
+    return !data?NULL:data;
 }
