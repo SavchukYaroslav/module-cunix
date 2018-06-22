@@ -14,7 +14,7 @@ int sh_exit(int c, char *v[]){
 
 char *lsh_read_line(void){
   char *line = NULL;
-  size_t bufsize = 0; // have getline allocate a buffer for us
+  size_t bufsize = 0; 
   getline(&line, &bufsize, stdin);
   return line;
 }
@@ -81,7 +81,6 @@ int main(int argc, char **argv){
     init_commands_list();
     lsh_loop();
     free_commands_list();
-    //ls(argc, argv);
 }
 
 

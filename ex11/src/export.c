@@ -6,9 +6,6 @@
 #include "../include/env.h"
 
 #define BUFSIZE 10
-/**
-*Causes memory leaks
-*/
 
 char **split_line(char *line, int* argc)
 {
@@ -68,14 +65,8 @@ static int export (int c, char *args[]){
             put_to_env(evalc, evaluated[0], evaluated[1]);
             free(evaluated);
         }
+        printf("\n");
     }
-    /*
-    char *k = malloc((strlen(args[1])+1)*sizeof(char));
-    char *v = malloc((strlen(args[2])+1)*sizeof(char));
-    strcpy(k, args[1]);
-    strcpy(v, args[2]);
-    new_var(k, v);
-    */
 }
 
 int export_validate(int argc, char** args){

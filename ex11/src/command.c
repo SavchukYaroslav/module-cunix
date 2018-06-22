@@ -76,18 +76,8 @@ int exec_cmd(int argc, char** args){
             return 1;
     }
     else{
-        printf("$_>Unknown command: %s\n", args[0]);
+        printf("Unknown command: %s\n", args[0]);
         return 1;
     } 
 }
 
-
-// int main(){
-//     init_commands_list();
-//     printf("%s\n", commands_list[0].name);
-//     printf("%s\n", commands_list[1].name);
-//     printf("%s\n", commands_list[2].name);
-//     printf("%s\n", commands_list[3].name);
-//     (*(commands_list[0].execute))(22, NULL);
-//     (*(commands_list[0].validate))(25, NULL);
-// }

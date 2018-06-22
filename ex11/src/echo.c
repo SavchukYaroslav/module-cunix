@@ -11,8 +11,6 @@ int echo_validate(int argc, char** args){
     return 1;
 }
 char* eval_arg(char* arg){
-   // char* evaluated = malloc((strlen(arg) + 1) * sizeof(arg));
-   // strcpy(evaluated, arg);
     char* evaluated;  
     if(arg[0] == '$'){
         if(arg[1] == '\0'){
@@ -34,7 +32,6 @@ char* eval_arg(char* arg){
 }
 
 int echo_execute(int argc, char** args){
-    printf("$_>");
     for(int i = 1; i < argc; i++){
         char* evaluated = eval_arg(args[i]);
         if(evaluated == NULL){

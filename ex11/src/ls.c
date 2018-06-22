@@ -9,17 +9,14 @@ static int ls(int c, char *v[]){
         DIR *pDir;
 
         if (c < 2) {
-            printf ("$_>Usage: ls <dirname>\n");
+            printf ("Usage: ls <dirname>\n");
             return 1;
         }
-
         pDir = opendir (v[1]);
         if (pDir == NULL) {
-            printf ("$_>Cannot open directory '%s'\n", v[1]);
+            printf ("Dirrectory not found: '%s'\n", v[1]);
             return 1;
         }
-
-        printf("$_>");
         while ((pDirent = readdir(pDir)) != NULL) {
             if(strcmp(pDirent->d_name, ".") && strcmp(pDirent->d_name, ".."))
                 printf ("%s ", pDirent->d_name);

@@ -21,20 +21,12 @@ void new_var(char* key, char* value){
   vars[arr_size] = key;
   vals[arr_size] = value;
   arr_size++;
-  // if(arr_size)
 }
-
- //char* get_val(char* key){
- //    return hash_get(ht, key);
- //}
 
 void init_env_table(){
     ht = hash_create(ENV_TABLE_CAP);
 }
 
-/**
-* todo: use print_hash_table() inside it
-*/
 void print_env_table(){
     for (int i = 0; i < arr_size; ++i)
     {
@@ -54,13 +46,14 @@ void free_env_table(){
 }
 
 static int env(int c, char *v[]){
+    printf("\n");
     print_env_table();
     return 1;
 }
 
 int env_validate(int argc, char** args){
     if(args[1]){
-        printf ("$_>Too many arguments\n");
+        printf ("Too many arguments\n");
         return 0;
     }
     return 1;

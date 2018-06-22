@@ -5,6 +5,7 @@
 #include "../include/exit.h"
 
 int exit_validate(int argc, char** args){
+    printf("\n\n");
     return 1;
 }
 
