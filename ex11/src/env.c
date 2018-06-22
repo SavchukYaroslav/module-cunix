@@ -24,9 +24,9 @@ void new_var(char* key, char* value){
   // if(arr_size)
 }
 
-// char* get_val(char* key){
-//     return hash_get(ht, vars[i]);
-// }
+ //char* get_val(char* key){
+ //    return hash_get(ht, key);
+ //}
 
 void init_env_table(){
     ht = hash_create(ENV_TABLE_CAP);
