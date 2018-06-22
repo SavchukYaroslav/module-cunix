@@ -1,12 +1,7 @@
-$_> Echo worked
-$_>
-$_>
-$_> Echo worked
-$_>
-LOL: STR
-LOL1: STR
-VAR: hello
+$_>$_>hello 
+$_>$_>$_>$_>hello silly billy 
+$_>VAR: hello
 CAT: billy
-$_>file1 file2 lvl2 
-$_>file1 file2 
+$_>$_>file1 file2 lvl2 
+$_>$_>file1 file2 
 $_>

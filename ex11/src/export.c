@@ -60,15 +60,12 @@ static int export (int c, char *args[]){
         char** evaluated = split_line(args[i], &evalc);
         if(evalc != 2){
             printf("Wrong argument: %s\n", args[i]);
-            printf("%d\n", c);
             if(evaluated)
                 free(evaluated);
             return 1;
         }
         else{
             put_to_env(evalc, evaluated[0], evaluated[1]);
-            printf("c:%d\n", evalc);
-            printf("OK1: %s\n 2:%s ", evaluated[0], evaluated[1]);
             free(evaluated);
         }
     }
