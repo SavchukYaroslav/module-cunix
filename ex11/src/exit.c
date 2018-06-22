@@ -9,6 +9,5 @@ int exit_validate(int argc, char** args){
 }
 
 int exit_execute(int argc, char** args){
-    printf("$_>\n");
     return 0;
 }

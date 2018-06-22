@@ -30,18 +30,6 @@ void new_var(char* key, char* value){
 
 void init_env_table(){
     ht = hash_create(ENV_TABLE_CAP);
-
-    char *a = malloc(4*sizeof(char));
-    char *b = malloc(4*sizeof(char));
-    strcpy(a, "LOL");
-    strcpy(b, "STR");
-    new_var(a, b);
-
-    char *c = malloc(15*sizeof(char));
-    char *d = malloc(15*sizeof(char));
-    strcpy(c, "LOL1");
-    strcpy(d, "STR");
-    new_var(c, d);
 }
 
 /**
@@ -66,8 +54,8 @@ void free_env_table(){
 }
 
 static int env(int c, char *v[]){
-    printf("$_>\n");
     print_env_table();
+    return 1;
 }
 
 int env_validate(int argc, char** args){

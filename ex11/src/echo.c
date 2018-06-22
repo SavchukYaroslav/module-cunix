@@ -34,6 +34,7 @@ char* eval_arg(char* arg){
 }
 
 int echo_execute(int argc, char** args){
+    printf("$_>");
     for(int i = 1; i < argc; i++){
         char* evaluated = eval_arg(args[i]);
         if(evaluated == NULL){

@@ -14,7 +14,6 @@ static int export (int c, char *args[]){
     strcpy(k, args[1]);
     strcpy(v, args[2]);
     new_var(k, v);
-    printf("$_>\n");
 }
 
 int export_validate(int argc, char** args){

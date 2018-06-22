@@ -66,6 +66,7 @@ void lsh_loop(void){
   int status;
 
   do {
+    printf("$_>");
     line = lsh_read_line();
     args = lsh_split_line(line, &argc);
     
