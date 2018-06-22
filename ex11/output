@@ -1,12 +1,12 @@
-$_>Unknown command: echo
+$_> Echo worked
 $_>
 $_>
-$_>Unknown command: echo
+$_> Echo worked
 $_>
 LOL: STR
 LOL1: STR
 VAR: hello
 CAT: billy
-$_>file2 lvl2 file1 
-$_>file2 file1 
+$_>file1 file2 lvl2 
+$_>file1 file2 
 $_>
