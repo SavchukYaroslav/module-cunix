@@ -1,0 +1,12 @@
+$_>Unknown command: echo
+$_>
+$_>
+$_>Unknown command: echo
+$_>
+LOL: STR
+LOL1: STR
+VAR: hello
+CAT: billy
+$_>file2 lvl2 file1 
+$_>file2 file1 
+$_>
