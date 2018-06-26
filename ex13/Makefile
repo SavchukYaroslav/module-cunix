@@ -58,3 +58,9 @@ test_string_valgrind:  re_str
 
 debug:              $(NAME)
 					valgrind -v --leak-check=full --track-origins=yes ./$(NAME)
+
+stream_test:	src/stream.c src/stream_test.c include/stream.h
+	gcc -o str src/stream.c src/stream_test.c
+	./str
+stream_debug:	stream_test
+	valgrind --leak-check=full -v ./str
