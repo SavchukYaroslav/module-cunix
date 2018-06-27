@@ -10,7 +10,7 @@
      printf("SIZE: %d\n", stream->size);
      stream_print(stream);
  }
-
+/*
 int main(){
     printf("TEST\n");
     stream_t* stream = stream_init();
@@ -33,3 +33,4 @@ int main(){
     stream_destroy(stream);
 
 }
+*/

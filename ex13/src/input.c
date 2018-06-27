@@ -9,9 +9,11 @@
 
 ssize_t readall(int fd, void * data, size_t count) {
   ssize_t bytesRead;
+  char * dataPtr;
+  size_t total;
 
-  char * dataPtr = data;
-  size_t total = 0;
+  dataPtr = data;
+  total = 0;
 
   while (count) {
     bytesRead = read(fd, dataPtr, count);
@@ -39,6 +41,7 @@ int     read_int(char delim){
     stream_append(int_stream, str);
     bytesRead = read(0, char_buf, 1);
   }
+
   res = atoi(int_stream->str);
   stream_destroy(int_stream);
   return res;
@@ -46,7 +49,10 @@ int     read_int(char delim){
 
 char**    read_map(int h, int w){
   char   char_buf[1];
-  char   **map = (char**) malloc(h * sizeof(char*));
+  char   **map;
+  
+  map = (char**) malloc(h * sizeof(char*));
+  
   for(int i = 0; i < h; i++){
     map[i] = (char*) malloc(w * sizeof(char));
     readall(0, map[i], w); // read horisontal line
@@ -77,12 +83,6 @@ void     read_inp(filler_t *filler, info_t *info){
   char** board;
   char** figure;
 
-  char   buf[READ_BUF_SIZE];
-  char   char_buf[1];
-  int bytesRead;
-  char str[2] = "\0";
-  stream_t* int_stream;
-
   symbol = read_symbol();
   filler->symbol = symbol;
 
@@ -103,15 +103,4 @@ void     read_inp(filler_t *filler, info_t *info){
 
   figure = read_map(fig_h, fig_w);
   info->figure = figure;
-
-  FILE  *logger;
-  logger = fopen("filler_new.log", "a");
-
-  fprintf(logger,"\nFIGURE:\n");
-  for(int i = 0; i < fig_h; i++){
-    for(int j = 0; j < fig_w; j++)
-      fprintf(logger,"%c", figure[i][j]);
-      fprintf(logger,"\n");
-  }
-  fclose(logger); 
 }

@@ -17,17 +17,16 @@ filler_t     *create_filler(){
 
   return filler;
 }
-//todo: remove whole board
-void          destroy_filler(filler_t *filler){
+void       destroy_filler(filler_t *filler){
   if (filler->board){
     for(int i = 0; i < filler->h; i++)
-          free(filler->board[i]); //todo: remove whole board
+          free(filler->board[i]); 
      free(filler->board);
   }
 
   if (filler->prev_board){
     for(int i = 0; i < filler->h; i++)
-          free(filler->prev_board[i]); //todo: remove whole board
+          free(filler->prev_board[i]); 
     free(filler->prev_board);
   }
   free(filler);

@@ -15,11 +15,11 @@ info_t     *create_info(){
 
   return info;
 }
-//todo: remove whole board
+
 void          destroy_info(info_t *info){
   if (info->figure){
     for(int i = 0; i < info->fig_h; i++)
-        free(info->figure[i]); //todo: remove whole board
+        free(info->figure[i]); 
     free(info->figure);
   }
   free(info);

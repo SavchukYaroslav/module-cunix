@@ -31,10 +31,12 @@ FILE  *logger;
 
 
 
-          dprintf(1, "%d %d\n", j+1, i);
+          //dprintf(1, "%d %d\n", j+1, i);
           //dprintf(1, "%d %d\n", -1, -1);
           //write(1, "-1 -1", 6);
-          return res;
+   res.x = j+1;
+   res.y = i;
+   return res;
         }
     }
   }
