@@ -8,7 +8,7 @@ int main(){
   filler_t    *filler;
   info_t      *info;
   filler = create_filler();
-  info = create_info();
+  //info = create_info();
   FILE  *logger;
   
   logger = fopen("filler_new.log", "w");
@@ -16,7 +16,7 @@ int main(){
   fclose(logger);
   int ctr = 0;
   while(1){
-
+    info = create_info();
   logger = fopen("filler_new.log", "a");
 
   fprintf(logger,"New interationi-%d\n", ctr++);
