@@ -7,33 +7,21 @@
 
 #define READ_BUF_SIZE 64
 
- ssize_t readall(int fd, void * data, size_t count) {
+ssize_t readall(int fd, void * data, size_t count) {
+  ssize_t bytesRead;
 
-   ssize_t bytesRead;
+  char * dataPtr = data;
+  size_t total = 0;
 
-   char * dataPtr = data;
-
-   size_t total = 0;
-
-   while (count) {
-
+  while (count) {
     bytesRead = read(fd, dataPtr, count);
 
-    /* we should check bytesRead for < 0 to return errors
-
-      properly, but this is just sample code! */
-
     dataPtr += bytesRead;
-
     count -= bytesRead;
-
     total += bytesRead;
+  }
 
-   }
-
-
-   return total;
-
+  return total;
 }
 
 int     read_int(char delim){
@@ -74,13 +62,13 @@ char     read_symbol(){
   char   char_buf[1];
   bytesRead = read(0, char_buf, 1); //read my symbol
   res = char_buf[0];
-  bytesRead = read(0, char_buf, 1); //read /n
+  bytesRead = read(0, char_buf, 1); //read \n
 
   return res;
 }
 
 
-void     read_inp(stream_t* stream){
+void     read_inp(filler_t    *filler){
   char symbol;
   int w;
   int h;
@@ -97,30 +85,41 @@ void     read_inp(stream_t* stream){
 
   symbol = read_symbol();
   printf("SYMBOL: %c\n", symbol);
+  filler->symbol = symbol;
 
-  w = read_int(' ');
-  printf("WIDTH %d\n", w);
+  h = read_int(' ');
+  printf("WIDTH %d\n", h);
+  filler->h = h;
 
-  h = read_int('\n');
-  printf("HEIGHT %d\n", h);
-
-
+  w = read_int('\n');
+  printf("HEIGHT %d\n", w);
+  filler->w = w;
 
   board = read_map(h, w);
-    for(int i = 0; i < h; i++){
-      for(int j = 0; j < w; j++)
-        printf("%c ", board[i][j]);
-      printf("\n");
-    }
+  filler->board = board;
+
+  fig_h = read_int(' ');
+  printf("FIGURE HEIGHT %d\n", fig_h);
+
+  fig_w = read_int('\n');
+  printf("FIGURE WIDTH %d\n", fig_w);
+
+  figure = read_map(fig_h, fig_w);
 
   FILE  *logger;
   logger = fopen("filler_new.log", "a");
-  // fprintf(logger,"buffer: empty");
 
-  fprintf(logger,"\n");
+  fprintf(logger,"\nMAP:\n");
   for(int i = 0; i < h; i++){
     for(int j = 0; j < w; j++)
       fprintf(logger,"%c", board[i][j]);
+      fprintf(logger,"\n");
+  }
+
+  fprintf(logger,"\nFIGURE:\n");
+  for(int i = 0; i < fig_h; i++){
+    for(int j = 0; j < fig_w; j++)
+      fprintf(logger,"%c", figure[i][j]);
       fprintf(logger,"\n");
   }
   fclose(logger); 

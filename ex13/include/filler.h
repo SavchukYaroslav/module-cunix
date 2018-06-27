@@ -2,72 +2,52 @@
 #define _FILLER_H_
 
 
-typedef struct  map_s
-{
-  int           h;
-  int           w;
-  char          **array;
-}               map_t;
-
-typedef struct  elem_s
-{
-  int           h;
-  int           w;
-  char          **array;
-}               elem_t;
-
 typedef struct  pos_s
 {
   int           x;
   int           y;
 }               pos_t;
 
-typedef struct  req_s
-{
-  char          symbol;
-  map_t         map;
-  elem_t        elem;
-}               req_t;
-
 typedef struct  stream_s
 {
   char          *str;
   unsigned int  size;
   unsigned int  limit;
-}               stream_t;
+} 
+              stream_t;
 
 typedef struct  filler_s
 {
-  stream_t      *current_stream;
-  int           status;
-  int           find_enemy;
+  char           symbol;
+  int            w; //board width
+  int            h; //board height
+  char         **board; //not freed till the end of the game
+  char         **prev_board; //not freed till the end of the game
 }               filler_t;
 
-/*Functions for reading*/
-req_t*          read_request(filler_t *filler);
-void            read_input(filler_t* filler);
+/* My types */
+typedef struct  info_s
+{
+  int            fig_w;
+  int            fig_h;  
+  char         **figure;
+}               info_t;
 
-/*Functions for parsing*/
-req_t*          parse_all(char *all);
-pos_t           parse_size(char *answer);
+
 
 /*Functions for game logic*/
-void            start_game(filler_t *filler);
-pos_t           play(req_t *core, filler_t *filler);
+// void            start_game(filler_t *filler);
+// pos_t           play(req_t *core, filler_t *filler);
 
 /*Functions for printing*/
 void            print_pos(pos_t p);
 
-/*Tools*/
-int             set_nonblocking(int fd);
-void            fatal(char *msg);
-void            create_filler(filler_t *filler);
-void            destroy_filler(filler_t *filler);
-void            create_req(req_t *req);
-void            destroy_req(req_t *req);
+//Reading
+void     read_inp(filler_t   *filler);
+
+//Filler
+filler_t     *create_filler();
+void          destroy_filler(filler_t *filler);
 
 
-/*My functions
-*/
-void     read_inp(stream_t* stream);
 #endif // _FILLER_H_
