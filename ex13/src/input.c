@@ -68,7 +68,7 @@ char     read_symbol(){
 }
 
 
-void     read_inp(filler_t    *filler){
+void     read_inp(filler_t *filler, info_t *info){
   char symbol;
   int w;
   int h;
@@ -88,11 +88,11 @@ void     read_inp(filler_t    *filler){
   filler->symbol = symbol;
 
   h = read_int(' ');
-  printf("WIDTH %d\n", h);
+  printf("HEIGHT %d\n", h);
   filler->h = h;
 
   w = read_int('\n');
-  printf("HEIGHT %d\n", w);
+  printf("WIDTH %d\n", w);
   filler->w = w;
 
   board = read_map(h, w);
@@ -100,11 +100,14 @@ void     read_inp(filler_t    *filler){
 
   fig_h = read_int(' ');
   printf("FIGURE HEIGHT %d\n", fig_h);
+  info->fig_h = fig_h;
 
   fig_w = read_int('\n');
   printf("FIGURE WIDTH %d\n", fig_w);
+  info->fig_w = fig_w;
 
   figure = read_map(fig_h, fig_w);
+  info->figure = figure;
 
   FILE  *logger;
   logger = fopen("filler_new.log", "a");

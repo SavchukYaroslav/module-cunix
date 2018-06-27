@@ -43,11 +43,16 @@ typedef struct  info_s
 void            print_pos(pos_t p);
 
 //Reading
-void     read_inp(filler_t   *filler);
+void     read_inp(filler_t *filler, info_t *info);
 
 //Filler
 filler_t     *create_filler();
 void          destroy_filler(filler_t *filler);
+
+//Info
+info_t     *create_info();
+void        destroy_info(info_t *info);
+
 
 
 #endif // _FILLER_H_
