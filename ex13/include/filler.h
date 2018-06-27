@@ -36,8 +36,7 @@ typedef struct  info_s
 
 
 /*Functions for game logic*/
-// void            start_game(filler_t *filler);
-// pos_t           play(req_t *core, filler_t *filler);
+ pos_t           play(filler_t *filler, info_t *info);
 
 /*Functions for printing*/
 void            print_pos(pos_t p);

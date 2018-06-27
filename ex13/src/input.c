@@ -84,26 +84,21 @@ void     read_inp(filler_t *filler, info_t *info){
   stream_t* int_stream;
 
   symbol = read_symbol();
-  printf("SYMBOL: %c\n", symbol);
   filler->symbol = symbol;
 
   h = read_int(' ');
-  printf("HEIGHT %d\n", h);
   filler->h = h;
 
   w = read_int('\n');
-  printf("WIDTH %d\n", w);
   filler->w = w;
 
   board = read_map(h, w);
   filler->board = board;
 
   fig_h = read_int(' ');
-  printf("FIGURE HEIGHT %d\n", fig_h);
   info->fig_h = fig_h;
 
   fig_w = read_int('\n');
-  printf("FIGURE WIDTH %d\n", fig_w);
   info->fig_w = fig_w;
 
   figure = read_map(fig_h, fig_w);
@@ -111,13 +106,6 @@ void     read_inp(filler_t *filler, info_t *info){
 
   FILE  *logger;
   logger = fopen("filler_new.log", "a");
-
-  fprintf(logger,"\nMAP:\n");
-  for(int i = 0; i < h; i++){
-    for(int j = 0; j < w; j++)
-      fprintf(logger,"%c", board[i][j]);
-      fprintf(logger,"\n");
-  }
 
   fprintf(logger,"\nFIGURE:\n");
   for(int i = 0; i < fig_h; i++){
