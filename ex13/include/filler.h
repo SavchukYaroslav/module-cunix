@@ -65,4 +65,9 @@ void            create_filler(filler_t *filler);
 void            destroy_filler(filler_t *filler);
 void            create_req(req_t *req);
 void            destroy_req(req_t *req);
+
+
+/*My functions
+*/
+void     read_inp(stream_t* stream);
 #endif // _FILLER_H_
