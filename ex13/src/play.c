@@ -130,6 +130,26 @@ pos_t silly_direction(filler_t *filler, info_t *info, int dir){
    res.y = -1;
    return res;
   }
+
+
+  else if(dir == 3){ 
+     for(int j = w-1; j >= 0; j--){
+       for(int i = h-1; i >= 0; i--){
+          if(can_put_figure(j, i, filler, info)){
+              res.x = j;
+              res.y = i;
+              return res;
+          }
+       }
+    }
+    res.x = -1;
+    res.y = -1;
+    return res;
+   }
+
+
+
+
   else{
 
       int possib_found;
@@ -201,7 +221,7 @@ pos_t make_diagonals(filler_t *filler, info_t *info){
       return res;
     
     if(wall_reached(filler, info, res)){
-        if(dir <= 2)
+        if(dir <= 3)
             dir++;
     }
     return res;
