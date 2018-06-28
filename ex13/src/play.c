@@ -18,6 +18,11 @@ int cell_is_nghbr(int x, int y, filler_t *filler){
     return filler->board[y][x] == filler->symbol;
 }
 
+int cell_is_enemy(int x, int y, filler_t *filler){
+    return (filler->board[y][x] != filler->symbol)
+         &&(filler->board[y][x] != '.');
+}
+
 int cell_nghbr_exist(int x, int y, filler_t *filler){
   if(cell_inside_map(x, y+1, filler) && cell_is_nghbr(x, y+1, filler))
         return 1;
@@ -29,6 +34,19 @@ int cell_nghbr_exist(int x, int y, filler_t *filler){
         return 1;
   return 0;
 }
+
+int cell_enemy_exist(int x, int y, filler_t *filler){
+  if(cell_inside_map(x, y+1, filler) && cell_is_enemy(x, y+1, filler))
+        return 1;
+  if(cell_inside_map(x, y-1, filler) && cell_is_enemy(x, y-1, filler))
+        return 1;
+  if(cell_inside_map(x+1, y, filler) && cell_is_enemy(x+1, y, filler))
+        return 1;
+  if(cell_inside_map(x-1, y, filler) && cell_is_enemy(x-1, y, filler))
+        return 1;
+  return 0;
+}
+
 
 int can_put_figure(int x, int y, filler_t *filler, info_t *info){
       int neigh_found;
@@ -49,6 +67,18 @@ int can_put_figure(int x, int y, filler_t *filler, info_t *info){
       }
       return neigh_found;
   }
+
+int enemy_near(int x, int y, filler_t* filler, info_t* info){
+  for(int i = 0; i < info->fig_h; i++){
+        for(int j = 0; j < info->fig_w; j++){
+             if(cell_enemy_exist(x+j, y+i, filler))
+                return 1;
+          }
+   }
+  return 0;
+}
+  
+ // return cell_enemy_exist(
 
 
 pos_t silly_direction(filler_t *filler, info_t *info, int dir){
@@ -100,16 +130,39 @@ pos_t silly_direction(filler_t *filler, info_t *info, int dir){
    res.y = -1;
    return res;
   }
-  else{ 
+  else{
+
+      int possib_found;
+      pos_t possible;
+
+      possib_found = 0;
+      possible.x = -1;
+      possible.y = -1;
+
+
      for(int j = w-1; j >= 0; j--){
        for(int i = h-1; i >= 0; i--){
           if(can_put_figure(j, i, filler, info)){
-              res.x = j;
-              res.y = i;
-              return res;
-          }
-       }
+              if(enemy_near(j, i, filler, info)){
+                res.x = j;
+                res.y = i;
+                return res;
+              }
+              else{
+                  if(!possib_found){
+                    possible.x = j;
+                    possible.y = i;
+
+                    possib_found = 1;
+                  }
+              }
+           }
+        }
     }
+
+    if(possib_found)
+        return possible;
+
     res.x = -1;
     res.y = -1;
     return res;
