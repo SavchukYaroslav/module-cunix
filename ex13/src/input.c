@@ -29,17 +29,16 @@ ssize_t readall(int fd, void * data, size_t count) {
 int     read_int(char delim){
   int       res;
   char      char_buf[1];
-  int       bytesRead;
   char      str[2] = "\0";
   stream_t  *int_stream;
 
   int_stream = stream_init();
 
-  bytesRead = read(0, char_buf, 1);
+  read(0, char_buf, 1);
   while(char_buf[0] != delim){
     str[0] = char_buf[0];
     stream_append(int_stream, str);
-    bytesRead = read(0, char_buf, 1);
+    read(0, char_buf, 1);
   }
 
   res = atoi(int_stream->str);
@@ -63,12 +62,11 @@ char**    read_map(int h, int w){
 
 char     read_symbol(){
   char res;
-  int bytesRead;
 
   char   char_buf[1];
-  bytesRead = read(0, char_buf, 1); //read my symbol
+  read(0, char_buf, 1); //read my symbol
   res = char_buf[0];
-  bytesRead = read(0, char_buf, 1); //read \n
+  read(0, char_buf, 1); //read \n
 
   return res;
 }
