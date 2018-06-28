@@ -120,46 +120,6 @@ pos_t silly_direction(filler_t *filler, info_t *info, int dir){
 
 }
 
-pos_t silly(filler_t *filler, info_t *info){
-  pos_t res;
-  int w = filler->w;
-  int h = filler->h;
-
-  for(int i = h-1; i >= 0; i--){
-    for(int j = 0; j < w; j++){
-  // for(int i = 0; i < h; i++){
-  //   for(int j = 0; j < w; j++){
-        if(can_put_figure(j, i, filler, info)){
-            res.x = j;
-            res.y = i;
-            return res;
-        }
-     }
-  }
-  res.x = -1;
-  res.y = -1;
-  return res;
-  
-}
-
-pos_t simple_diagonal(filler_t *filler, info_t *info){
-  pos_t res;
-  int w = filler->w;
-  int h = filler->h;
-  char** brd = filler->board;
-  char s = filler->symbol;
-
-  for(int i = h-1; i >= 0; i--){
-    for(int j = w-1; j >= 0; j--){
-        if(brd[i][j] == s){
-          res.x = j+1;
-          res.y = i;
-          return res;
-        }
-    }
-  }
-}
-
 int elem_is_wall(filler_t *filler, info_t *info, int x, int y){
  if((x == 0) || (y == 0) ||
      (x == filler->w - 1) || (y == filler->h - 1))
@@ -184,30 +144,19 @@ int wall_reached(filler_t *filler, info_t *info, pos_t pos){
 pos_t make_diagonals(filler_t *filler, info_t *info){
     pos_t res;
     static int dir = 0;
-    
-    if(dir == 5)
-        dir = 0;
 
     res = silly_direction(filler, info, dir);
     
     if(res.x < 0) // no matches found
       return res;
     
-    if(wall_reached(filler, info, res))
-        dir++;
-
+    if(wall_reached(filler, info, res)){
+        if(dir <= 2)
+            dir++;
+    }
     return res;
 }
 
 pos_t         play(filler_t *filler, info_t *info){
-
-  if(tactics == -1)
-    return simple_diagonal(filler, info);
-  if(tactics == 0)
-    return silly(filler, info);
-  if(tactics == 1)
     return make_diagonals(filler, info);
-  if(tactics == 3)
-    return silly_direction(filler, info, 0);
-    
 }
