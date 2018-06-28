@@ -8,7 +8,6 @@
 
 
 static int tactics = 1;
-static int dir = 0;
 
 int cell_inside_map(int x, int y, filler_t *filler, info_t *info){
     return (x < filler->w) && (x >= 0) && (y < filler->h) && (y >= 0);
@@ -55,7 +54,7 @@ int can_put_figure(int x, int y, filler_t *filler, info_t *info){
   }
 
 
-pos_t silly_direction(filler_t *filler, info_t *info){
+pos_t silly_direction(filler_t *filler, info_t *info, int dir){
   pos_t res;
   int w = filler->w;
   int h = filler->h;
@@ -75,7 +74,7 @@ pos_t silly_direction(filler_t *filler, info_t *info){
    return res;
   }
 
-  if(dir == 0){
+  else if(dir == 0){
     for(int j = 0; j < w; j++){
       for(int i = 0; i < h; i++){
          if(can_put_figure(j, i, filler, info)){
@@ -90,7 +89,7 @@ pos_t silly_direction(filler_t *filler, info_t *info){
    return res;
   }
 
-  if(1){
+  else if(dir == 2){
     for(int i = h-1; i >= 0; i--){
       for(int j = w-1; j >= 0; j--){
          if(can_put_figure(j, i, filler, info)){
@@ -104,6 +103,20 @@ pos_t silly_direction(filler_t *filler, info_t *info){
    res.y = -1;
    return res;
   }
+  else{ 
+     for(int j = w-1; j >= 0; j--){
+       for(int i = h-1; i >= 0; i--){
+          if(can_put_figure(j, i, filler, info)){
+              res.x = j;
+              res.y = i;
+              return res;
+          }
+       }
+    }
+    res.x = -1;
+    res.y = -1;
+    return res;
+   }
 
 }
 
@@ -170,18 +183,19 @@ int wall_reached(filler_t *filler, info_t *info, pos_t pos){
 
 pos_t make_diagonals(filler_t *filler, info_t *info){
     pos_t res;
-
+    static int dir = 0;
+    
     if(dir == 5)
         dir = 0;
 
-    res = silly_direction(filler, info);
+    res = silly_direction(filler, info, dir);
     
     if(res.x < 0) // no matches found
       return res;
     
     if(wall_reached(filler, info, res))
         dir++;
-   
+
     return res;
 }
 
@@ -194,6 +208,6 @@ pos_t         play(filler_t *filler, info_t *info){
   if(tactics == 1)
     return make_diagonals(filler, info);
   if(tactics == 3)
-    return silly_direction(filler, info);
+    return silly_direction(filler, info, 0);
     
 }
