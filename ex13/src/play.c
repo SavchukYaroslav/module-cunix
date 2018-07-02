@@ -6,6 +6,7 @@
 #include "../include/filler.h"
 #include "../include/stream.h"
 
+static int stage = 0;
 int cell_inside_map(int x, int y, filler_t *filler){
     return (x < filler->w) && (x >= 0) && (y < filler->h) && (y >= 0);
 }
@@ -87,8 +88,8 @@ pos_t silly_direction(filler_t *filler, info_t *info, int dir){
   int h = filler->h;
 
   if(dir == 1){
-    for(int i = 0; i < h; i++){
-      for(int j = w-1; j >= 0; j--){
+    for(int j = w-1; j >= 0; j--){
+      for(int i = 0; i < h; i++){
          if(can_put_figure(j, i, filler, info)){
              res.x = j;
              res.y = i;
@@ -132,7 +133,22 @@ pos_t silly_direction(filler_t *filler, info_t *info, int dir){
   }
 
 
-  else if(dir == 3){ 
+ else if(dir == 3){ 
+     for(int i = 0; i < h; i++){
+       for(int j = w-1; j >= 0; j--){
+          if(can_put_figure(j, i, filler, info)){
+              res.x = j;
+              res.y = i;
+              return res;
+          }
+       }
+    }
+    res.x = -1;
+    res.y = -1;
+    return res;
+  }
+
+  else if(dir == 4){ 
      for(int j = w-1; j >= 0; j--){
        for(int i = h-1; i >= 0; i--){
           if(can_put_figure(j, i, filler, info)){
@@ -145,9 +161,7 @@ pos_t silly_direction(filler_t *filler, info_t *info, int dir){
     res.x = -1;
     res.y = -1;
     return res;
-   }
-
-
+  }
 
 
   else{
@@ -211,8 +225,8 @@ int wall_reached(filler_t *filler, info_t *info, pos_t pos){
     return elem_is_wall(filler, pos.x, pos.y);
 }
 
-pos_t make_diagonals(filler_t *filler, info_t *info){
-    pos_t res;
+pos_t    make_diagonals(filler_t *filler, info_t *info){
+    pos_t      res;
     static int dir = 0;
 
     res = silly_direction(filler, info, dir);
@@ -220,13 +234,58 @@ pos_t make_diagonals(filler_t *filler, info_t *info){
     if(res.x < 0) // no matches found
       return res;
     
-    if(wall_reached(filler, info, res)){
-        if(dir <= 3)
-            dir++;
-    }
+    if(wall_reached(filler, info, res) || enemy_near(res.x, res.y, filler, info)){
+    
+      if(dir <= 4)
+        dir++;
+      }
     return res;
 }
 
-pos_t         play(filler_t *filler, info_t *info){
-    return make_diagonals(filler, info);
+int set_dir(filler_t *filler, info_t *info){
+    pos_t my;
+    
+    my = silly_direction(filler, info, 0);
+    if(my.y < filler->h/3){
+      if(my.x < 2*(filler->w/3))
+        return 4;
+    }
+
+    if(my.y > 2*(filler->h/3)){
+      if(my.x < 2*(filler->w/3))
+        return 1;
+    }
+    
+    return -1;
+}
+
+pos_t    leave_edge(filler_t *filler, info_t *info){
+  static int first_turn = 1;
+  static int dir;
+  pos_t res;
+
+  if(first_turn){
+    dir = set_dir(filler, info);
+    first_turn = 0; 
+  }
+
+  if(dir == -1){
+    stage = 1;
+    return make_diagonals(filler, info); 
+  }
+  else{
+    res = silly_direction(filler, info, dir);
+
+    if(wall_reached(filler, info, res))
+      stage = 1;
+  
+    return res;
+  }
+}
+
+pos_t    play(filler_t *filler, info_t *info){
+    if(stage == 0)//Leave edge
+        return leave_edge(filler, info);
+    else
+     return make_diagonals(filler, info);
 }
