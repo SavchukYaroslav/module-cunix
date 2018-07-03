@@ -5,7 +5,7 @@ RM					:= rm -rf
 
 LDFLAGS				+= -Llib
 
-CFLAGS				+= -Iinclude -Wall -Wextra -Werror -g
+CFLAGS				+= -Iinclude # -Wall -Wextra -Werror -g
 
 SRCS				:= $(wildcard src/*.c)
 
@@ -29,5 +29,5 @@ re: 				fclean all
 test:				re
 						@(./$(NAME) && echo "Test success" || echo "Test Fails")
 
-debug:              $(TNAME)
-					valgrind -v --leak-check=full --track-origins=yes ./$(TNAME)
+debug:              $(NAME)
+					valgrind -v --leak-check=full --track-origins=yes ./$(NAME)
