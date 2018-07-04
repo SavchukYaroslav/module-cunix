@@ -8,13 +8,13 @@ int test_small()
 {
 	char *foo = (char *)halloc(20);
 	assert( strcmp(foo,"0x0000000000000001"));
-	free(foo);
+	my_free(foo);
 	foo = (char *) halloc(10000000000000000000UL);
 	assert(foo == NULL);
-	free(foo);
+	my_free(foo);
   	foo = (char *) halloc(0);
 	assert(foo == NULL);
-  	free(foo);
+  my_free(foo);
 	return 0;
 }
 
@@ -28,8 +28,8 @@ int test_long()
 		a[i] = tmp;
 	}
 	for (int i = 0; i < 1000; i++)
-		free(a[i]);
-  	free(a);
+		my_free(a[i]);
+  	my_free(a);
 	return 0;
 }
 

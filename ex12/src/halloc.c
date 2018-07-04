@@ -47,7 +47,7 @@ t_block extend_heap (t_block last , size_t s){
 
 void split_block (t_block b, size_t s){
   t_block new;
-  new = b->data + s;
+  new = (t_block)(b->data + s);
   new ->size = b->size - s - BLOCK_SIZE ;
   new ->next = b->next;
   new ->free = 1;
@@ -110,7 +110,7 @@ t_block fusion(t_block b){
 
 int valid_addr (void *p){
    if (base){
-     if ( p>base && p<sbrk (0)){
+     if ( ((t_block)p)>base && p<sbrk (0)){
        return (p == ( get_block (p))->ptr );
      }
    }
@@ -138,7 +138,9 @@ void my_free(void *p){
   }
 }
 
+/*
 int main(){
  void* a = halloc(10);
  my_free(a);
 }
+*/
