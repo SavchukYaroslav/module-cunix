@@ -49,7 +49,7 @@ t_block    extend_heap (t_block last , size_t s){
 
 void      split_block (t_block b, size_t s){
   t_block     new;
-  
+
   new = (t_block)(b->data + s);
   new ->size = b->size - s - BLOCK_SIZE ;
   new ->next = b->next;
@@ -74,7 +74,8 @@ void      *halloc(size_t size ){
     if ((b->size - s) >= ( BLOCK_SIZE + 4))
       split_block (b,s);
     b->free =0;
-  } else {
+  } 
+  else {
    b = extend_heap (last ,s);
   if (!b)
    return(NULL );
