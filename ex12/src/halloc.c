@@ -14,73 +14,73 @@ size_t align8(size_t x)
 
 t_block      find_block (t_block *last , size_t size)
 {
-  t_block b;
+	t_block b;
 
 	b = base;
-  while (b && !(b->free && b->size >= size )) 
+	while (b && !(b->free && b->size >= size )) 
 	{
-    *last = b;
-    b = b->next;
-  }
+		*last = b;
+		b = b->next;
+	}
 
-  return b;
+	return b;
 }
 
 t_block    new_chunk (t_block last , size_t s)
 {
-  t_block    b;
-  
-  b = sbrk (s);
-  if(sbrk(BLOCK_SIZE + s) == (void*)-1)
-    return (NULL );
+	t_block    b;
 
-  b->size = s;
-  b->next = NULL;
-  b->free = 0;
-	
+	b = sbrk (s);
+	if(sbrk(BLOCK_SIZE + s) == (void*)-1)
+		return (NULL );
+
+	b->size = s;
+	b->next = NULL;
+	b->free = 0;
+
 	if (last)
 	{
-    last->next = b;
+		last->next = b;
 		b->prev = last;
 	}
 
-  return b;
+	return b;
 }
 
 void      split_block (t_block b, size_t s)
 {
-  t_block     new;
+	t_block     new;
 
-  new = (t_block)(b->data + s);
-  new ->size = b->size - s - BLOCK_SIZE ;
-  new ->next = b->next;
-  new ->free = 1;
+	new = (t_block)(b->data + s);
+	new ->size = b->size - s - BLOCK_SIZE ;
+	new ->next = b->next;
+	new ->free = 1;
 	new->prev = b;
-  b->size = s;
-  b->next = new;
+	b->size = s;
+	b->next = new;
 }
 
 void      *halloc(size_t size)
 {
-  t_block    b;
-  size_t     s;
-	
+	t_block    b;
+	size_t     s;
+
 	if(size == 0)
-    return NULL;
-	  
-  s = align8(size);
- 
-  if (base)
+		return NULL;
+
+	s = align8(size);
+
+	if (base)
 	{
-  	b = find_block (&base, s);
+		b = find_block (&base, s);
 
 		if (b)
 		{
-    	if ((b->size - s) >= ( BLOCK_SIZE + sizeof(size_t)))
-      	split_block (b,s);
-    	b->free =0;
-  	} 
-  	else 
+			if ((b->size - s) >= ( BLOCK_SIZE + sizeof(size_t)))
+				split_block (b,s);
+			b->free =0;
+		} 
+		else 
 		{
 			t_block last;
 
@@ -88,70 +88,70 @@ void      *halloc(size_t size)
 			while(last->next)
 				last = last->next;
 
-  		b = new_chunk(last, s);
-  		if (!b)
-   			return NULL;
-  	}
+			b = new_chunk(last, s);
+			if (!b)
+				return NULL;
+		}
 	} 
 	else 
 	{
-  	b = new_chunk (NULL ,s);
-  	if (!b)
-   		return NULL;
-  	base = b;
+		b = new_chunk (NULL ,s);
+		if (!b)
+			return NULL;
+		base = b;
 	}
 
-  return b->data;
+	return b->data;
 }
 
 t_block      get_block (void *p) 
 {
-  return p - BLOCK_SIZE; 
+	return p - BLOCK_SIZE; 
 }
 
 t_block     merge(t_block b)
 {
-  if(b->next && b->next->free)
+	if(b->next && b->next->free)
 	{
-    b->size += BLOCK_SIZE + b->next->size;
-    b->next = b->next->next;
+		b->size += BLOCK_SIZE + b->next->size;
+		b->next = b->next->next;
 
-    if(b->next)
-      b->next->prev = b;
-  }
+		if(b->next)
+			b->next->prev = b;
+	}
 
-  return b;
+	return b;
 }
 
 int     ptr_is_valid (void *p)
 {
-return ((base)
-			 &&(p > (void*) base)
-			 &&(p < sbrk(0))
-       &&(p == (get_block (p))));
+	return ((base)
+			&&(p > (void*) base)
+			&&(p < sbrk(0))
+			&&(p == (get_block (p))));
 }
 
 void my_free(void *p)
 {
-  t_block     b;
+	t_block     b;
 
-  if (ptr_is_valid (p))
+	if (ptr_is_valid (p))
 	{
-    b = get_block (p);
-    b->free = 1;
+		b = get_block (p);
+		b->free = 1;
 
-    if(b->prev && b->prev->free)
-    	b = merge(b->prev);
+		if(b->prev && b->prev->free)
+			b = merge(b->prev);
 
-    if (b->next)
-      merge(b);
-    else
+		if (b->next)
+			merge(b);
+		else
 		{
-      if (b->prev)
-        b->prev->next = NULL;
-      else
-        base = NULL;
-      brk(b);
-    }
-  }
+			if (b->prev)
+				b->prev->next = NULL;
+			else
+				base = NULL;
+			brk(b);
+		}
+	}
 }
