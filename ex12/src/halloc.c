@@ -30,7 +30,7 @@ t_block    new_chunk (t_block last , size_t s)
 {
   t_block    b;
   
-  b = sbrk (0);
+  b = sbrk (s);
   if(sbrk(BLOCK_SIZE + s) == (void*)-1)
     return (NULL );
 
