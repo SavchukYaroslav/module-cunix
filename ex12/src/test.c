@@ -7,12 +7,12 @@
 int test_small()
 {
 	char *foo = (char *)halloc(20);
-	assert( strcmp(foo,"0x0000000000000001"));
+	assert(foo > (char*)0x0000000000000001);
 	my_free(foo);
 	foo = (char *) halloc(10000000000000000000UL);
 	assert(foo == NULL);
 	my_free(foo);
-  	foo = (char *) halloc(0);
+ 	foo = (char *) halloc(0);
 	assert(foo == NULL);
   my_free(foo);
 	return 0;
